@@ -1,3 +1,4 @@
+import { createSlice } from '@reduxjs/toolkit';
 /* eslint-disable no-case-declarations */
 const anecdotesAtStart = [
     'If it hurts, do it more often',
@@ -17,41 +18,60 @@ const asObject = (anecdote) => {
         votes: 0,
     };
 };
+const anecdoteSlice = createSlice({
+    name: 'anecdotes',
+    initialState: anecdotesAtStart.map(asObject),
+    reducers: {
+        vote(state, action) {
+            console.log('action', action);
+            console.log('state', state);
+            const id = Number(action.payload);
+            console.log('id', id);
+            const anecdoteToChange = state.find((n) => Number(n.id) === id);
+            console.log('anecdoteToChange', anecdoteToChange);
+            anecdoteToChange.votes += 1;
+            return state.sort((a, b) => b.votes - a.votes);
+        },
+        createNew(state, action) {
+            return [...state, asObject(action.payload.content)];
+        },
+    },
+});
 
-const initialState = anecdotesAtStart.map(asObject);
+// const initialState = anecdotesAtStart.map(asObject);
 
-const reducer = (state = initialState, action) => {
-    console.log('state now: ', state);
-    console.log('action', action);
+// const reducer = (state = initialState, action) => {
+//     console.log('state now: ', state);
+//     console.log('action', action);
 
-    switch (action.type) {
-        case 'VOTE':
-            const id = action.data.id;
-            const anecdoteToChange = state.find((n) => n.id === id);
-            const changedAnecdote = { ...anecdoteToChange, votes: anecdoteToChange.votes + 1 };
-            state = state.map((anecdote) => (anecdote.id !== id ? anecdote : changedAnecdote));
-            break;
-        case 'NEW_ANECDOTE':
-            state = [...state, asObject(action.data)];
-            break;
-        default:
-            return state;
-    }
+//     switch (action.type) {
+//         case 'VOTE':
+//             const id = action.data.id;
+//             const anecdoteToChange = state.find((n) => n.id === id);
+//             const changedAnecdote = { ...anecdoteToChange, votes: anecdoteToChange.votes + 1 };
+//             state = state.map((anecdote) => (anecdote.id !== id ? anecdote : changedAnecdote));
+//             break;
+//         case 'NEW_ANECDOTE':
+//             state = [...state, asObject(action.data)];
+//             break;
+//         default:
+//             return state;
+//     }
 
-    return state.sort((a, b) => b.votes - a.votes);
-};
-export const vote = (id) => {
-    return {
-        type: 'VOTE',
-        data: { id },
-    };
-};
+//     return state.sort((a, b) => b.votes - a.votes);
+// };
+// export const vote = (id) => {
+//     return {
+//         type: 'VOTE',
+//         data: { id },
+//     };
+// };
 
-export const createNew = (content) => {
-    return {
-        type: 'NEW_ANECDOTE',
-        data: content,
-    };
-};
-
-export default reducer;
+// export const createNew = (content) => {
+//     return {
+//         type: 'NEW_ANECDOTE',
+//         data: content,
+//     };
+// };
+export const { vote, createNew } = anecdoteSlice.actions;
+export default anecdoteSlice.reducer;
