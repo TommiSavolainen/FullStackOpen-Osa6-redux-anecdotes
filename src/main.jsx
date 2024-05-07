@@ -2,15 +2,15 @@ import ReactDOM from 'react-dom/client'
 import store from './store'
 import { Provider } from 'react-redux'
 import App from './App'
-// import reducer from './reducers/anecdoteReducer'
-// import filterReducer from './reducers/filterReducer'
+// import anecdoteService from './services/anecdotes'
+// import {setAnecdotes} from './reducers/anecdoteReducer'
 
-// const reducers = combineReducers({
-//   anecdotes: reducer,
-//   filter: filterReducer
-// })
-// const store = createStore(reducers)
-// console.log(store.getState())
+// anecdoteService.getAll().then(anecdotes =>
+//   anecdotes.forEach(anecdote =>
+//     store.dispatch(setAnecdotes(anecdote))
+//   )
+// )
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <App />

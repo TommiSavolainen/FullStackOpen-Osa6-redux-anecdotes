@@ -6,6 +6,7 @@ const AnecdoteList = () => {
     const dispatch = useDispatch();
     const filter = useSelector((state) => state.filter);
     const anecdotes = useSelector((state) => state.anecdotes);
+    console.log('anecdotes', anecdotes);
     const anecdotesToShow = anecdotes.filter((anecdote) => 
         !filter || (anecdote.content && anecdote.content.includes(filter))
     );
